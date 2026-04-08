@@ -55,11 +55,16 @@ def predict_from_frame(frame):
 
         print("Feature shape:", features.shape)
 
-        pred = model.predict(features)[0]
+        probs = model.predict_proba(features)[0]
+        pred = np.argmax(probs)
+        confidence = probs[pred]
 
         print("Prediction:", pred)
 
-        return GESTURES[pred]
+        return {
+            "text": GESTURES[pred],
+            "confidence": float(confidence)
+        }
 
     except Exception as e:
         print("ERROR:", e)
