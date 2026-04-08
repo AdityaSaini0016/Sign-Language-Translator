@@ -4,7 +4,10 @@ import joblib
 import cv2
 
 # Load the trained model (update path if needed)
-loaded = joblib.load(r"D:\Sign Language Translator\Sign-language-translator\gesture_model.pkl")
+import os
+
+model_path = os.path.join(os.path.dirname(__file__), "models", "gesture_model.pkl")
+loaded = joblib.load(model_path)
 
 print(type(loaded))      # TEMP
 print(loaded.keys())     # TEMP
