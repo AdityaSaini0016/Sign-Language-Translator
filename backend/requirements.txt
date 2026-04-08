@@ -1,7 +1,7 @@
 fastapi
 uvicorn
 opencv-python
-mediapipe==0.10.9
+mediapipe==0.10.30
 numpy
 scikit-learn
 joblib
