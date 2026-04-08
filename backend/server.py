@@ -5,6 +5,10 @@ from detector import predict_from_frame
 
 app = FastAPI()
 
+@app.get("/")
+def home():
+    return {"message": "API is running"}
+
 @app.post("/translate")
 async def translate(file: UploadFile = File(...)):
     try:
@@ -13,8 +17,12 @@ async def translate(file: UploadFile = File(...)):
         np_arr = np.frombuffer(contents, np.uint8)
         frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
+        if frame is None:
+            return {"text": "Invalid image", "confidence": 0.0}
+        
         # Call your model
         result = predict_from_frame(frame)
+
 
         # If result is dict (with confidence)
         if isinstance(result, dict):
