@@ -12,14 +12,12 @@ print(loaded.keys())     # TEMP
 model = loaded["model"]
 GESTURES = loaded["gestures"]
 
-mp_holistic = mp.solutions.holistic  # Correct import
+mp_hands = mp.solutions.hands
 
-# Initialize detector
-holistic_detector = mp_holistic.Holistic(
+hands_detector = mp_hands.Hands(
     static_image_mode=True,
-    model_complexity=1,
-    min_detection_confidence=0.3,
-    min_tracking_confidence=0.3,
+    max_num_hands=1,
+    min_detection_confidence=0.5,
 )
 
 
@@ -41,9 +39,13 @@ def predict_from_frame(frame):
 
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        results = holistic_detector.process(rgb)
+        results = hands_detector.process(rgb)
 
-        hand_landmarks = results.right_hand_landmarks or results.left_hand_landmarks
+        if not results.multi_hand_landmarks:
+            print("No hand detected")
+            return "No hand"
+
+        hand_landmarks = results.multi_hand_landmarks[0]
 
         if not hand_landmarks:
             print("No hand detected")

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // Use 10.0.2.2 for Android Emulator, or your Local IP for real devices
-  static const String _baseUrl = "http://10.0.2.2:8000";
+  static const String _baseUrl = "http://192.168.29.8:8000";
 
   // Renamed to match your CameraScreen call and added 'static'
   static Future<String> translateSignLanguage(String imagePath) async {
