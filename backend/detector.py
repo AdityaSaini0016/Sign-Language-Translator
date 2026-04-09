@@ -64,4 +64,4 @@ def predict_from_frame(frame):
 
     except Exception as e:
         print("ERROR:", e)
-        return "Prediction Error"
+        return {"text": "Error", "error": str(e)}
