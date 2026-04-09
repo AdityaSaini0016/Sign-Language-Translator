@@ -25,13 +25,13 @@ class _CameraScreenState extends State<CameraScreen> {
   Timer? _timer;
   bool isLiveMode = false;
 
-  String lastSpokenText = ""; // 🔥 Prevent repeated speech
+  String lastSpokenText = "";
 
   @override
   void initState() {
     super.initState();
     _initializeCamera();
-    TTSService.init(); // Initialize TTS
+    TTSService.init();
   }
 
   Future<void> _initializeCamera() async {
@@ -65,7 +65,7 @@ class _CameraScreenState extends State<CameraScreen> {
       isLiveMode = !isLiveMode;
 
       if (isLiveMode) {
-        _timer = Timer.periodic(const Duration(milliseconds: 700), (timer) {
+        _timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
           if (!isProcessing) captureAndTranslate();
         });
       } else {
@@ -101,12 +101,10 @@ class _CameraScreenState extends State<CameraScreen> {
           confidence = newConfidence;
         });
 
-        // 🔥 Smart TTS (no spam + confidence filter)
         if (newText != "No hand" &&
             newText != "Error" &&
             newConfidence > 0.6 &&
             newText != lastSpokenText) {
-          
           lastSpokenText = newText;
           TTSService.speak(newText);
         }
@@ -157,7 +155,6 @@ class _CameraScreenState extends State<CameraScreen> {
       children: [
         Expanded(child: CameraPreview(controller!)),
 
-        // 🔥 Status Indicator
         Text(
           isProcessing ? "Processing..." : "Ready",
           style: TextStyle(
@@ -186,13 +183,52 @@ class _CameraScreenState extends State<CameraScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
+
                   const SizedBox(height: 8),
+
                   Text(
                     "${(confidence * 100).toStringAsFixed(1)}%",
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.greenAccent,
                     ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  Text(
+                    "Confidence",
+                    style: TextStyle(color: Colors.white70),
+                  ),
+
+                  const SizedBox(height: 6),
+
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0, end: confidence),
+                    duration: const Duration(milliseconds: 300),
+                    builder: (context, value, _) => LinearProgressIndicator(
+                      value: value,
+                      minHeight: 8,
+                      backgroundColor: Colors.grey[800],
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        value > 0.7
+                            ? Colors.green
+                            : value > 0.4
+                                ? Colors.orange
+                                : Colors.red,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  Text(
+                    confidence > 0.7
+                        ? "✅ High Confidence"
+                        : confidence > 0.4
+                            ? "⚠️ Medium Confidence"
+                            : "❌ Low Confidence",
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ],
               ),
