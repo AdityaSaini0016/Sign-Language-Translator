@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // 🔥 Replace with your laptop IP
-  static const String _baseUrl = "http://192.168.29.8:8000";
+  static const String _baseUrl = "https://sign-language-translator-1-x21g.onrender.com";
 
   // Returns structured data (text + confidence)
   static Future<Map<String, dynamic>> translateSignLanguage(String imagePath) async {
@@ -34,7 +34,7 @@ class ApiService {
       }
     } catch (e) {
       return {
-        "text": "Connection Failed",
+        "text": "Error: $e",
         "confidence": 0.0,
       };
     }
