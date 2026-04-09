@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: sign-language-api
+    env: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    runtime: python
+    pythonVersion: 3.10.13
