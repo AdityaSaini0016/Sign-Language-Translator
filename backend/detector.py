@@ -18,14 +18,18 @@ def init_mediapipe():
     global mp_hands, hands_detector
 
     if mp_hands is None:
-        import mediapipe as mp
-        mp_hands = mp.solutions.hands
+        try:
+            import mediapipe as mp
+            mp_hands = mp.solutions.hands
 
-        hands_detector = mp_hands.Hands(
-            static_image_mode=True,
-            max_num_hands=1,
-            min_detection_confidence=0.5,
-        )
+            hands_detector = mp_hands.Hands(
+                static_image_mode=True,
+                max_num_hands=1,
+                min_detection_confidence=0.5,
+            )
+        except Exception as e:
+            print(f"Failed to initialize MediaPipe: {e}")
+            raise
 
 
 def extract_hand_vector(hand_landmarks):
