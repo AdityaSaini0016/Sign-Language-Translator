@@ -1,9 +1,8 @@
 fastapi
 uvicorn
 opencv-python-headless
-mediapipe==0.10.14
-numpy==1.26.4
-scikit-learn==1.7.2
+mediapipe==0.10.20
+numpy==1.24.4
+scikit-learn
 joblib
 python-multipart
-protobuf==4.25.3
