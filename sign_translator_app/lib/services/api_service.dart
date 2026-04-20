@@ -24,9 +24,11 @@ class ApiService {
       request.files.add(await http.MultipartFile.fromPath('file', imagePath));
 
       final streamedResponse = await request.send().timeout(
-        const Duration(seconds: 10),
+        const Duration(seconds: 30),
       );
-      final response = await http.Response.fromStream(streamedResponse);
+      final response = await http.Response.fromStream(streamedResponse).timeout(
+        const Duration(seconds: 30),
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
