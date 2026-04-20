@@ -4,7 +4,7 @@ import cv2
 import os
 
 # Load model safely
-model_path = os.path.join(os.path.dirname(__file__), "models", "gesture_model.pkl")
+model_path = os.path.join(os.path.dirname(__file__), "..", "models", "gesture_model.pkl")
 loaded = joblib.load(model_path)
 
 model = loaded["model"]

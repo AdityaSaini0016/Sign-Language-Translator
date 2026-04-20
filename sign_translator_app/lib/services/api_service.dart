@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   static const String _defaultBaseUrl =
-      'https://sign-language-translator-1-x21g.onrender.com';
+      'https://sign-language-translator-587v.onrender.com';
   static const String _configuredBaseUrl =
       String.fromEnvironment('API_BASE_URL', defaultValue: _defaultBaseUrl);
 
